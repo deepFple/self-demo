@@ -1,8 +1,12 @@
 import React from 'react'
+import Body from './Component/Body'
+import './Styles/main.css';
 
 const App = () => {
   return (
-    <div className=' text-4xl text-red-800'>App</div>
+    <>
+      <Body/>
+    </>
   )
 }
 
