@@ -1,9 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
+import {checkValidation} from '../../Utils/validate.js';
 
 const LoginForm = () => {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const email = useRef(null);
+  const password = useRef(null);
+
   const switchAuth = () => {
       setUserLoggedIn(!userLoggedIn);
+  }
+
+  const handleAuth = (e) => {
+   e.preventDefault();
+   const message = checkValidation(email.current.value, password.current.value);
+   setErrorMessage(message);
   }
 
   return (
@@ -14,17 +25,17 @@ const LoginForm = () => {
                   <span className='text-4xl font-extrabold text-white'>{userLoggedIn ? 'Sign In' : 'Sign Up'}</span>
                </header>
                { userLoggedIn ? (
-               <form className='flex flex-col gap-4'>
+               <form onSubmit={handleAuth} className='flex flex-col gap-4'>
                   <div className='background-white-overlay w-full h-14 rounded-md px-5 pt-1'>
                      <label className='text-sm text-light'>Email or mobile number</label>
-                     <input type="text" className=' outline-none w-full bg-transparent text-light text-sm' />
+                     <input ref={email} type="text" className=' outline-none w-full bg-transparent text-light text-sm' />
                   </div>
 
                   <div className='background-white-overlay w-full h-14 rounded-md px-5 pt-1'>
                      <label className='text-sm text-light'>Password</label>
-                     <input type="password" className=' outline-none w-full bg-transparent text-light text-sm' />
+                     <input ref={password} type="password" className=' outline-none w-full bg-transparent text-light text-sm' />
                   </div>
-
+                  <span className='text-red-600 font-bold text-sm'>{errorMessage}</span>
                   <button className=' bg-[#E50914] text-light text-sm h-10 rounded-md'>Sign In</button>
                </form>
                ) : (
